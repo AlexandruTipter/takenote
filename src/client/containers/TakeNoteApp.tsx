@@ -23,7 +23,7 @@ import {
 import { loadCategories, swapCategories } from '@/slices/category'
 import { sync } from '@/slices/sync'
 import { NoteItem, CategoryItem } from '@/types'
-import { loadNotes } from '@/slices/note'
+import { loadNotes, fetchNotesAsync } from '@/slices/note'
 import { loadSettings } from '@/slices/settings'
 import { getSettings, getNotes, getCategories, getSync } from '@/selectors'
 
@@ -49,6 +49,7 @@ export const TakeNoteApp: React.FC = () => {
   const dispatch = useDispatch()
 
   const _loadNotes = () => dispatch(loadNotes())
+  const _loadNotesAsync = () => dispatch(fetchNotesAsync())
   const _loadCategories = () => dispatch(loadCategories())
   const _loadSettings = () => dispatch(loadSettings())
   const _swapCategories = (categoryId: number, destinationId: number) =>
@@ -80,6 +81,7 @@ export const TakeNoteApp: React.FC = () => {
     _loadNotes()
     _loadCategories()
     _loadSettings()
+    _loadNotesAsync()
   }, [])
 
   useInterval(() => {

@@ -15,8 +15,8 @@ import '@/styles/index.scss'
 const sagaMiddleware = createSagaMiddleware()
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [sagaMiddleware, ...getDefaultMiddleware({ thunk: false })],
-  devTools: process.env.NODE_ENV !== 'production',
+  middleware: [sagaMiddleware, ...getDefaultMiddleware({ thunk: true })],
+  devTools: true,
 })
 
 sagaMiddleware.run(rootSaga)

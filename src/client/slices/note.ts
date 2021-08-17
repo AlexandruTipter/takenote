@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
+import axios, { AxiosResponse } from 'axios'
+import { preProcessFile } from 'typescript'
 
 import { Folder, NotesSortKey } from '@/utils/enums'
 import { NoteItem, NoteState } from '@/types'
@@ -23,6 +25,14 @@ const getNewActiveNoteId = (
 
   return ''
 }
+
+const axiosInstance = axios.create({ baseURL: 'https://swapi.dev/api/' })
+
+export const fetchNotesAsync = createAsyncThunk('fetchNotesAsync', async () => {
+  const response: AxiosResponse<any> = await axiosInstance.get('people')
+
+  return response.data.results
+})
 
 export const getFirstNoteId = (
   folder: Folder,
@@ -313,6 +323,16 @@ const noteSlice = createSlice({
       ]
       state.loading = false
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchNotesAsync.fulfilled, (state, action) => {
+      state.notes.push(
+        ...action.payload.map(
+          (people: any) =>
+            ({ id: people.name, scratchpad: true, text: people.name, category: '' } as NoteItem)
+        )
+      )
+    })
   },
 })
 

@@ -73,10 +73,9 @@ export const NoteList: React.FC = () => {
     [Folder.ALL]: (note) => !note.trash && !note.scratchpad,
   }
 
-  const filteredNotes: NoteItem[] = notes
-    .filter(filter[activeFolder])
-    .filter(isMatch)
-    .sort(getNotesSorter(notesSortKey))
+  const filteredNotes: NoteItem[] = notes //.filter(filter[activeFolder])
+  //.filter(isMatch)
+  //.sort(getNotesSorter(notesSortKey))
 
   // ===========================================================================
   // Handlers
